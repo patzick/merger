@@ -1,6 +1,6 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Branch Merger'
+description: 'Keep your branches up to date.'
+author: 'Patryk Tomczyk @patzick'
 inputs:
   myInput:              # change this
     description: 'input description here'
