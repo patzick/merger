@@ -1,5 +1,7 @@
 # Create a JavaScript Action using TypeScript
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/patzick/merger.svg)](https://greenkeeper.io/)
+
 Use this template to bootstrap the creation of a JavaScript action.:rocket:
 
 This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
