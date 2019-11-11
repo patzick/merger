@@ -4,7 +4,7 @@ author: 'Patryk Tomczyk @patzick'
 inputs:
   myInput:              # change this
     description: 'input description here'
-    default: 'default value if applicable'
+    default: 500
 runs:
   using: 'node12'
   main: 'dist/index.js'
