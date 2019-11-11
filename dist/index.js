@@ -1893,6 +1893,7 @@ function run() {
             if (!address)
                 address = "";
             address.replace("{/sha}", "");
+            console.log("GET TO ADDRESS", address);
             const refsResponse = yield axios_1.default.get(address);
             console.log("REFS", refsResponse.data);
             core.debug(new Date().toTimeString());

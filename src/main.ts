@@ -18,6 +18,8 @@ async function run() {
     if (!address) address = "";
     address.replace("{/sha}", "");
 
+    console.log("GET TO ADDRESS", address);
+
     const refsResponse = await axios.get(address);
     console.log("REFS", refsResponse.data);
 
