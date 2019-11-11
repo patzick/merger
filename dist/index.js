@@ -1892,7 +1892,7 @@ function run() {
                 github.context.payload.repository.git_refs_url;
             if (!address)
                 address = "";
-            address.replace("{/sha}", "");
+            address = address.replace("{/sha}", "");
             console.log("GET TO ADDRESS", address);
             const refsResponse = yield axios_1.default.get(address);
             console.log("REFS", refsResponse.data);
