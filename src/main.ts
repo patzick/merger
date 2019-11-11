@@ -10,11 +10,13 @@ async function run() {
     console.log(`PR: ${getPrNumber()}`);
     console.log(`CONTEXT`, github.context);
 
-    const address =
+    let address =
       github.context &&
       github.context.payload &&
       github.context.payload.repository &&
       github.context.payload.repository.git_refs_url;
+    if (!address) address = "";
+    address.replace("{/sha}", "");
 
     const refsResponse = await axios.get(address);
     console.log("REFS", refsResponse.data);

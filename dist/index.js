@@ -1886,10 +1886,13 @@ function run() {
             console.log(`Waiting ${ms} milliseconds ...`);
             console.log(`PR: ${getPrNumber()}`);
             console.log(`CONTEXT`, github.context);
-            const address = github.context &&
+            let address = github.context &&
                 github.context.payload &&
                 github.context.payload.repository &&
                 github.context.payload.repository.git_refs_url;
+            if (!address)
+                address = "";
+            address.replace("{/sha}", "");
             const refsResponse = yield axios_1.default.get(address);
             console.log("REFS", refsResponse.data);
             core.debug(new Date().toTimeString());
