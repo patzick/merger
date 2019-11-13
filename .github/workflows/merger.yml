@@ -14,9 +14,6 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm test
-    - uses: ./
-      with: 
-        milliseconds: 1000
   
   merge:
     runs-on: ubuntu-latest
