@@ -17,17 +17,17 @@ test("wait 500 ms", async () => {
 });
 
 // shows how the runner will run a javascript action with env / stdout protocol
-test("test runs", async () => {
-  const ip = path.resolve(__dirname, "../dist/index.js");
-  const options = {
-    env: {
-      INPUT_MILLISECONDS: "500"
-    }
-  };
-  try {
-    const { stdout } = await execa(`node`, [ip], options);
-    console.log(stdout);
-  } catch (e) {
-    console.error(e.stdout);
-  }
-});
+// test("test runs", async () => {
+//   const ip = path.resolve(__dirname, "../dist/index.js");
+//   const options = {
+//     env: {
+//       INPUT_MILLISECONDS: "500"
+//     }
+//   };
+//   try {
+//     const { stdout } = await execa(`node`, [ip], options);
+//     console.log(stdout);
+//   } catch (e) {
+//     console.error(e.stdout);
+//   }
+// });
