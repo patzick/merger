@@ -31,7 +31,7 @@ async function run() {
       // core.info(stdout)
       const octokit = new github.GitHub(gitToken);
       const response = await octokit.repos.merge({
-        owner: getRepo().owner.login,
+        owner: getRepo().owner.name,
         repo: getRepo().name,
         base: refsList[0],
         head: github.context.sha
