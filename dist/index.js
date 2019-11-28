@@ -2768,21 +2768,25 @@ function run() {
                 // core.info(stdout)
                 const octokit = new github.GitHub(gitToken);
                 yield Promise.all(refsList.map((branchRef) => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield octokit.repos.merge({
-                        owner: getRepo().owner.name,
-                        repo: getRepo().name,
-                        base: refsList[0],
-                        head: github.context.sha
-                    });
-                    if ([201, 204].includes(response.status)) {
-                        core.info(`Branch ${branchRef} is now up to date!`);
+                    try {
+                        const response = yield octokit.repos.merge({
+                            owner: getRepo().owner.name,
+                            repo: getRepo().name,
+                            base: refsList[0],
+                            head: github.context.sha
+                        });
+                        if ([201, 204].includes(response.status)) {
+                            core.info(`Branch ${branchRef} is now up to date!`);
+                        }
                     }
-                    else if (response.status === 409) {
-                        core.error(`Branch ${branchRef} is in conflict!`);
-                    }
-                    else {
-                        core.error(`Unmet problem with merge into ${branchRef}!`);
-                        console.error(response);
+                    catch (e) {
+                        console.error('ERROR', e);
+                        // if (e.status === 409) {
+                        //   core.error(`Branch ${branchRef} is in conflict!`);
+                        // } else {
+                        //   core.error(`Unmet problem with merge into ${branchRef}!`);
+                        //   console.error(e);
+                        // }
                     }
                 })));
                 core.info("Finished processing merges!");

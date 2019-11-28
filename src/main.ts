@@ -38,19 +38,24 @@ async function run() {
 
       await Promise.all(
         refsList.map(async branchRef => {
-          const response = await octokit.repos.merge({
-            owner: getRepo().owner.name,
-            repo: getRepo().name,
-            base: refsList[0],
-            head: github.context.sha
-          });
-          if ([201, 204].includes(response.status)) {
-            core.info(`Branch ${branchRef} is now up to date!`);
-          } else if (response.status === 409) {
-            core.error(`Branch ${branchRef} is in conflict!`);
-          }else {
-            core.error(`Unmet problem with merge into ${branchRef}!`);
-            console.error(response);
+          try {
+            const response = await octokit.repos.merge({
+              owner: getRepo().owner.name,
+              repo: getRepo().name,
+              base: refsList[0],
+              head: github.context.sha
+            });
+            if ([201, 204].includes(response.status)) {
+              core.info(`Branch ${branchRef} is now up to date!`);
+            }
+          } catch (e) {
+            console.error('ERROR', e)
+            // if (e.status === 409) {
+            //   core.error(`Branch ${branchRef} is in conflict!`);
+            // } else {
+            //   core.error(`Unmet problem with merge into ${branchRef}!`);
+            //   console.error(e);
+            // }
           }
         })
       );
