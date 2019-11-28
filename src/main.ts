@@ -1,7 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { getRefsAddress, getRepoRefs, getMatchingRefs } from "./refs";
-import execa from "execa";
 
 function getRepo():any {
   const repo = github.context && github.context.payload && github.context.payload.repository
@@ -30,14 +29,24 @@ async function run() {
       // const {stdout} = await execa("git format-patch master --stdout | git-apply --check")
       // core.info(stdout)
       const octokit = new github.GitHub(gitToken);
-      const response = await octokit.repos.merge({
-        owner: getRepo().owner.name,
-        repo: getRepo().name,
-        base: refsList[0],
-        head: github.context.sha
-      });
-      core.info('RESPONSE')
-      core.info(JSON.stringify(response))
+
+      await Promise.all(
+        refsList.map(async branchRef => {
+          const response = await octokit.repos.merge({
+            owner: getRepo().owner.name,
+            repo: getRepo().name,
+            base: refsList[0],
+            head: github.context.sha
+          });
+          if (response.status === 201) {
+            core.info(`Branch ${branchRef} is now up to date!`);
+          } else {
+            core.error(`Problem with merge into ${branchRef}!`);
+            console.error(response);
+          }
+        })
+      )
+      core.info('Finished processing merges!')
     }
 
     core.debug(new Date().toTimeString());
