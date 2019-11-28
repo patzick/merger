@@ -49,13 +49,12 @@ async function run() {
               core.info(`Branch ${branchRef} is now up to date!`);
             }
           } catch (e) {
-            console.error('ERROR', e)
-            // if (e.status === 409) {
-            //   core.error(`Branch ${branchRef} is in conflict!`);
-            // } else {
-            //   core.error(`Unmet problem with merge into ${branchRef}!`);
-            //   console.error(e);
-            // }
+            if (e.status === 409) {
+              core.error(`Branch ${branchRef} is in conflict!`);
+            } else {
+              core.error(`Unmet problem with merge into ${branchRef}!`);
+              console.error(e);
+            }
           }
         })
       );
