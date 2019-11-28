@@ -1,8 +1,4 @@
 import { getMatchingRefs, GitHubRefs } from "../src/refs";
-import { context } from "@actions/github";
-
-jest.mock("@actions/github");
-const mocketGithub = context as jest.Mocked<typeof context>;
 
 const refs: GitHubRefs[] = [
   {
