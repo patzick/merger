@@ -12,10 +12,13 @@ async function run() {
     // const ms = core.getInput("milliseconds");
     // console.log(`Waiting ${ms} milliseconds ...`);
     // console.log(`PR: ${getPrNumber()}`);
-    console.log(`CONTEXT`, github.context);
+    // console.log(`CONTEXT`, github.context);
     console.log(`OWNER`, getRepo().owner);
 
     const address = getRefsAddress();
+
+    const into = core.getInput("branches");
+    console.error('INTO', into)
 
     console.log("GET TO ADDRESS", address);
 
@@ -23,7 +26,6 @@ async function run() {
     const refsList = getMatchingRefs(refs, "green*/*");
     console.log("REFS", refsList);
     if (refsList.length) {
-      core.info("HELLO WORLD");
       const gitToken = core.getInput("gitToken");
       // git format-patch master --stdout | git-apply --check
       // const {stdout} = await execa("git format-patch master --stdout | git-apply --check")
