@@ -1,6 +1,6 @@
 import * as github from "@actions/github";
 import axios from "axios";
-import minimatch from "minimatch"
+import minimatch from "minimatch";
 
 export function getRefsAddress(): string {
   let address =
@@ -8,7 +8,8 @@ export function getRefsAddress(): string {
     github.context.payload &&
     github.context.payload.repository &&
     github.context.payload.repository.git_refs_url;
-  if (!address) address = "https://api.github.com/repos/patzick/merger/git/refs{/sha}";
+  if (!address)
+    address = "https://api.github.com/repos/patzick/merger/git/refs{/sha}";
   return address.replace("{/sha}", "");
 }
 
@@ -33,6 +34,22 @@ export async function getRepoRefs(address): Promise<GitHubRefs[]> {
   return refsResponse.data;
 }
 
-export function getMatchingRefs(refs: GitHubRefs[], template): string[] {
-  return refs.map(ref => ref.ref).filter(ref => minimatch(ref, `refs/heads/${template}`));
+export function getMatchingRefs(
+  refs: GitHubRefs[],
+  template: string
+): string[] {
+  return refs
+    .map(ref => ref.ref)
+    .filter(ref => minimatch(ref, `refs/heads/${template}`));
+}
+
+export function getAllRefs(
+  refs: GitHubRefs[],
+  matches: string[] = []
+): string[] {
+  let selectedRefs: string[] = [];
+  matches.forEach(match => {
+    selectedRefs = [...selectedRefs, ...getMatchingRefs(refs, match)];
+  });
+  return [...new Set(selectedRefs)];
 }

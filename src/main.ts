@@ -1,10 +1,13 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import { getRefsAddress, getRepoRefs, getMatchingRefs } from "./refs";
+import { getRefsAddress, getRepoRefs, getAllRefs } from "./refs";
 
-function getRepo():any {
-  const repo = github.context && github.context.payload && github.context.payload.repository
-  return repo || {}
+function getRepo(): any {
+  const repo =
+    github.context &&
+    github.context.payload &&
+    github.context.payload.repository;
+  return repo || {};
 }
 
 async function run() {
@@ -18,14 +21,13 @@ async function run() {
     const address = getRefsAddress();
 
     const into = core.getInput("branches");
-    const intos = into.split('\n').map(el => el.trim())
-    console.error('INTO', into)
-    console.error('INTOS', intos)
+    const branchTemplates = into.split("\n").map(el => el.trim());
+    console.error("templates", branchTemplates);
 
     console.log("GET TO ADDRESS", address);
 
     const refs = await getRepoRefs(address);
-    const refsList = getMatchingRefs(refs, "green*/*");
+    const refsList = getAllRefs(refs, branchTemplates);
     console.log("REFS", refsList);
     if (refsList.length) {
       const gitToken = core.getInput("gitToken");
@@ -49,8 +51,8 @@ async function run() {
             console.error(response);
           }
         })
-      )
-      core.info('Finished processing merges!')
+      );
+      core.info("Finished processing merges!");
     }
 
     core.debug(new Date().toTimeString());

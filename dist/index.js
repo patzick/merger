@@ -2740,7 +2740,9 @@ const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 const refs_1 = __webpack_require__(222);
 function getRepo() {
-    const repo = github.context && github.context.payload && github.context.payload.repository;
+    const repo = github.context &&
+        github.context.payload &&
+        github.context.payload.repository;
     return repo || {};
 }
 function run() {
@@ -2753,12 +2755,11 @@ function run() {
             console.log(`OWNER`, getRepo().owner);
             const address = refs_1.getRefsAddress();
             const into = core.getInput("branches");
-            const intos = into.split('\n').map(el => el.trim());
-            console.error('INTO', into);
-            console.error('INTOS', intos);
+            const branchTemplates = into.split("\n").map(el => el.trim());
+            console.error("templates", branchTemplates);
             console.log("GET TO ADDRESS", address);
             const refs = yield refs_1.getRepoRefs(address);
-            const refsList = refs_1.getMatchingRefs(refs, "green*/*");
+            const refsList = refs_1.getAllRefs(refs, branchTemplates);
             console.log("REFS", refsList);
             if (refsList.length) {
                 const gitToken = core.getInput("gitToken");
@@ -2781,7 +2782,7 @@ function run() {
                         console.error(response);
                     }
                 })));
-                core.info('Finished processing merges!');
+                core.info("Finished processing merges!");
             }
             core.debug(new Date().toTimeString());
             // await wait(parseInt(ms, 10));
@@ -3609,9 +3610,19 @@ function getRepoRefs(address) {
 }
 exports.getRepoRefs = getRepoRefs;
 function getMatchingRefs(refs, template) {
-    return refs.map(ref => ref.ref).filter(ref => minimatch_1.default(ref, `refs/heads/${template}`));
+    return refs
+        .map(ref => ref.ref)
+        .filter(ref => minimatch_1.default(ref, `refs/heads/${template}`));
 }
 exports.getMatchingRefs = getMatchingRefs;
+function getAllRefs(refs, matches = []) {
+    let selectedRefs = [];
+    matches.forEach(match => {
+        selectedRefs = [...selectedRefs, ...getMatchingRefs(refs, match)];
+    });
+    return [...new Set(selectedRefs)];
+}
+exports.getAllRefs = getAllRefs;
 
 
 /***/ }),
