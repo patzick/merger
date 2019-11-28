@@ -18,7 +18,9 @@ async function run() {
     const address = getRefsAddress();
 
     const into = core.getInput("branches");
+    const intos = into.split('\n').map(el => el.trim())
     console.error('INTO', into)
+    console.error('INTOS', intos)
 
     console.log("GET TO ADDRESS", address);
 

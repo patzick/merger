@@ -22,6 +22,6 @@ jobs:
       with:
         gitToken: ${{ secrets.GITHUB_TOKEN }}
         branches: |
-          'green*/*'
-          'feat/**/*'
-          'release/**/*'
+          green*/*
+          feat/**/*
+          release/**/*
