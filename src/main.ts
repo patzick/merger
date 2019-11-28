@@ -44,10 +44,12 @@ async function run() {
             base: refsList[0],
             head: github.context.sha
           });
-          if (response.status === 201) {
+          if ([201, 204].includes(response.status)) {
             core.info(`Branch ${branchRef} is now up to date!`);
-          } else {
-            core.error(`Problem with merge into ${branchRef}!`);
+          } else if (response.status === 409) {
+            core.error(`Branch ${branchRef} is in conflict!`);
+          }else {
+            core.error(`Unmet problem with merge into ${branchRef}!`);
             console.error(response);
           }
         })
