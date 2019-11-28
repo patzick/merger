@@ -22,6 +22,6 @@ jobs:
       with:
         gitToken: ${{ secrets.GITHUB_TOKEN }}
         brenches:
-          - 'green*/*'
-          - 'feat/**/*'
-          - 'release/**/*'
+          'green*/*'
+          'feat/**/*'
+          'release/**/*'
