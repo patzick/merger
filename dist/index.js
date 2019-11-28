@@ -2753,7 +2753,9 @@ function run() {
             console.log(`OWNER`, getRepo().owner);
             const address = refs_1.getRefsAddress();
             const into = core.getInput("branches");
+            const intos = into.split('\n').map(el => el.trim());
             console.error('INTO', into);
+            console.error('INTOS', intos);
             console.log("GET TO ADDRESS", address);
             const refs = yield refs_1.getRepoRefs(address);
             const refsList = refs_1.getMatchingRefs(refs, "green*/*");
