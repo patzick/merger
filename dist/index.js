@@ -2763,14 +2763,22 @@ function run() {
                 // const {stdout} = await execa("git format-patch master --stdout | git-apply --check")
                 // core.info(stdout)
                 const octokit = new github.GitHub(gitToken);
-                const response = yield octokit.repos.merge({
-                    owner: getRepo().owner.name,
-                    repo: getRepo().name,
-                    base: refsList[0],
-                    head: github.context.sha
-                });
-                core.info('RESPONSE');
-                core.info(JSON.stringify(response));
+                yield Promise.all(refsList.map((branchRef) => __awaiter(this, void 0, void 0, function* () {
+                    const response = yield octokit.repos.merge({
+                        owner: getRepo().owner.name,
+                        repo: getRepo().name,
+                        base: refsList[0],
+                        head: github.context.sha
+                    });
+                    if (response.status === 201) {
+                        core.info(`Branch ${branchRef} is now up to date!`);
+                    }
+                    else {
+                        core.error(`Problem with merge into ${branchRef}!`);
+                        console.error(response);
+                    }
+                })));
+                core.info('Finished processing merges!');
             }
             core.debug(new Date().toTimeString());
             // await wait(parseInt(ms, 10));
