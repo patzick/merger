@@ -2752,7 +2752,7 @@ function run() {
             // console.log(`Waiting ${ms} milliseconds ...`);
             // console.log(`PR: ${getPrNumber()}`);
             // console.log(`CONTEXT`, github.context);
-            console.log(`OWNER`, getRepo().owner);
+            // console.log(`OWNER`, getRepo().owner);
             const address = refs_1.getRefsAddress();
             const into = core.getInput("branches");
             const branchTemplates = into.split("\n").map(el => el.trim());

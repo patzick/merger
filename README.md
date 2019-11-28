@@ -1,10 +1,6 @@
-# Create a JavaScript Action using TypeScript
+# Merger GitHub Action
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
-
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
-
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+GitHub Action, which allows you to forget about keeping branches up to date.
 
 ## Create an action from this template
 
