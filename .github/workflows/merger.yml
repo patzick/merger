@@ -21,7 +21,7 @@ jobs:
     - uses: patzick/merger@master
       with:
         gitToken: ${{ secrets.GITHUB_TOKEN }}
-        brenches:
+        branches: |
           'green*/*'
           'feat/**/*'
           'release/**/*'
