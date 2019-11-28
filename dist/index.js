@@ -2749,15 +2749,16 @@ function run() {
             // const ms = core.getInput("milliseconds");
             // console.log(`Waiting ${ms} milliseconds ...`);
             // console.log(`PR: ${getPrNumber()}`);
-            console.log(`CONTEXT`, github.context);
+            // console.log(`CONTEXT`, github.context);
             console.log(`OWNER`, getRepo().owner);
             const address = refs_1.getRefsAddress();
+            const into = core.getInput("branches");
+            console.error('INTO', into);
             console.log("GET TO ADDRESS", address);
             const refs = yield refs_1.getRepoRefs(address);
             const refsList = refs_1.getMatchingRefs(refs, "green*/*");
             console.log("REFS", refsList);
             if (refsList.length) {
-                core.info("HELLO WORLD");
                 const gitToken = core.getInput("gitToken");
                 // git format-patch master --stdout | git-apply --check
                 // const {stdout} = await execa("git format-patch master --stdout | git-apply --check")
